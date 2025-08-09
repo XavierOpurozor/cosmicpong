@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cosmic Pong</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/jpeg" href="icon.jpeg">
+</head>
+<body>
+  <div id="game-container">
+        <div id="title">Cosmic Pong</div>
+        <div id="settings-dropdown" class="dropdown-active">
+            <div id="settings-modal">
+                <h2>Game Settings</h2>
+                <form id="settingsForm">
+                    <label for="difficulty">Difficulty:</label>
+                    <select id="difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                    <br>
+                    <label for="pointsToWin">Points to Win:</label>
+                    <input type="number" id="pointsToWin" min="1" max="50" value="7" required>
+                    <br>
+                    <button type="submit" id="applySettingsBtn">Apply & Start Game</button>
+                </form>
+            </div>
+        </div>
+        <div id="scoreboard">
+            <span id="playerScore">0</span>
+            <span> : </span>
+            <span id="aiScore">0</span>
+        </div>
+        <div id="pointboard">
+            Points: <span id="playerPoints">0</span>
+            <span id="targetPointsDisplay" style="margin-left:12px;color:#1e90ff;"></span>
+        </div>
+        <canvas id="pongCanvas" width="800" height="500"></canvas>
+        <div id="winnerMsg"></div>
+        <footer>
+            &copy; Cosmic Pong Created by NXH
+        </footer>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
