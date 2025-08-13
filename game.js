@@ -1,4 +1,4 @@
-// Cosmic Pong - Pong (Optimized)
+// Cosmic Pong - Pong (Optimized with Touch Controls)
 // © Cosmic Pong Created by NXH
 
 // ==== DOM ELEMENTS ====
@@ -28,7 +28,7 @@ const BALL = {
     radius: 13,
     minAngle: 0.18 * Math.PI,
     maxAngle: 0.82 * Math.PI,
-    maxSpeed: 16 // Added a max speed to prevent the game from getting too fast
+    maxSpeed: 16
 };
 const DIFFICULTY = {
     easy:   { aiSpeed: 4, ballSpeed: 6 },
@@ -95,6 +95,17 @@ canvas.addEventListener('mousemove', e => {
     leftPaddle.y = e.clientY - rect.top - leftPaddle.height / 2;
     leftPaddle.y = Math.max(0, Math.min(canvas.height - leftPaddle.height, leftPaddle.y));
 });
+
+// Touch paddle movement
+canvas.addEventListener('touchmove', e => {
+    e.preventDefault(); // Prevent scrolling on touch
+    if (!gameStarted || gameOver) return;
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    leftPaddle.y = touch.clientY - rect.top - leftPaddle.height / 2;
+    leftPaddle.y = Math.max(0, Math.min(canvas.height - leftPaddle.height, leftPaddle.y));
+});
+
 // Start game from settings
 settingsForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -155,7 +166,7 @@ function drawUI() {
         ctx.globalAlpha = 0.92;
         ctx.fillText("Set your Game Settings!", canvas.width / 2, canvas.height / 2 - 24);
         ctx.font = "1.1rem Orbitron, Arial";
-        ctx.fillText("Move your mouse to control the left paddle!", canvas.width / 2, canvas.height / 2 + 18);
+        ctx.fillText("Move your mouse or finger to control the paddle!", canvas.width / 2, canvas.height / 2 + 18);
     }
     if (gameOver) {
         ctx.font = "bold 2.8rem Orbitron, Arial";
@@ -200,10 +211,9 @@ function update() {
         ball.x = leftPaddle.x + leftPaddle.width + ball.radius;
         const collidePoint = (ball.y - (leftPaddle.y + leftPaddle.height / 2)) / (leftPaddle.height / 2);
         const angleRad = collidePoint * (Math.PI / 4);
-        ball.speed = Math.min(BALL.maxSpeed, ball.speed * 1.04); // Apply speed cap
+        ball.speed = Math.min(BALL.maxSpeed, ball.speed * 1.04);
         ball.velocityX = ball.speed * Math.cos(angleRad);
         ball.velocityY = ball.speed * Math.sin(angleRad);
-        // No more "points on hit"
     }
 
     // AI paddle collision
@@ -211,7 +221,7 @@ function update() {
         ball.x = rightPaddle.x - ball.radius;
         const collidePoint = (ball.y - (rightPaddle.y + rightPaddle.height / 2)) / (rightPaddle.height / 2);
         const angleRad = collidePoint * (Math.PI / 4);
-        ball.speed = Math.min(BALL.maxSpeed, ball.speed * 1.04); // Apply speed cap
+        ball.speed = Math.min(BALL.maxSpeed, ball.speed * 1.04);
         ball.velocityX = -ball.speed * Math.cos(angleRad);
         ball.velocityY = ball.speed * Math.sin(angleRad);
     }
